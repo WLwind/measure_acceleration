@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<launch>
+    <arg name="imu_topic" default="imu"/>
+    <arg name="cmd_vel_topic" default="cmd_vel"/>
+    <arg name="odom_topic" default="odom"/>
+    <arg name="max_vel" default="2.75"/>
+    <arg name="axis" default="z"/>
+    <node name="linear_acceleration" pkg="measure_acceleration" type="measure_angular_acceleration" args="$(arg max_vel)" output="screen">
+        <remap from="imu" to="$(arg imu_topic)"/>
+        <remap from="cmd_vel" to="$(arg cmd_vel_topic)"/>
+        <remap from="odom" to="$(arg odom_topic)"/>
+        <param name="acc_axis" value="$(arg axis)"/>
+    </node>
+</launch>
