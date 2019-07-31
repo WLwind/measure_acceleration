@@ -5,6 +5,7 @@ int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "measure_angular_acceleration");
     MeasureAngularAcc mlacc(atof(argv[1]));
-    ros::spin();
+    ros::MultiThreadedSpinner spinner(2);
+    spinner.spin();
     return 0;
 }
