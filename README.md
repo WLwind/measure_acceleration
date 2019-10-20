@@ -16,4 +16,7 @@ The topic published to the robot mobile base (geometry_msgs/Twist)
 Max velocity that the robot can accelerate to. Check the manual of the robot to acquire the official specification.
 5. axis  
 The axis of the acceleration value you want to measure according to the frame of imu sensor.  
-__All the default argements are appropriate with Turtlebot3__
+__All the default argements are appropriate with Turtlebot3.__  
+## Examples
+measure_linear_acceleration example: `roslaunch measure_acceleration measure_linear_acceleration.launch imu_topic:=/imu odom_topic:=/odom cmd_vel_topic:=/cmd_vel max_vel:=0.22 axis:=x`  
+measure_angular_acceleration example: `roslaunch measure_acceleration measure_angular_acceleration.launch imu_topic:=/imu odom_topic:=/odom cmd_vel_topic:=/cmd_vel max_vel:=2.75 axis:=z`  
