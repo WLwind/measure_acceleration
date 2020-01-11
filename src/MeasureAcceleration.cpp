@@ -13,18 +13,22 @@ MeasureAcceleration::MeasureAcceleration(double velocity):max_velocity(velocity)
     }
 }
 
-double MeasureAcceleration::getMaxAcc() const
+double MeasureAcceleration::getMaxAcc()
 {
+    std::lock_guard<std::mutex> my_lock_guard(m_acc_mutex);
     return max_acc;
 }
 
 void MeasureAcceleration::setMaxAcc(double x)
 {
+    std::lock_guard<std::mutex> my_lock_guard(m_acc_mutex);
     max_acc=x;
     return;
 }
 
 double MeasureAcceleration::getMaxVelocity() const
 {
+    static std::mutex vel_mutex;
+    std::lock_guard<std::mutex> my_lock_guard(vel_mutex);
     return max_velocity;
 }

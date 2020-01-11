@@ -10,7 +10,9 @@ void MeasureLinearAcc::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_message
         setMaxAcc(imu_message->linear_acceleration.x);
         first_time=false;
         ROS_INFO("Start moving.");
+        m_cmd_vel_mutex.lock();
         cmd_vel_message.linear.x=getMaxVelocity();//start moving the robot
+        m_cmd_vel_mutex.unlock();
     }
     else
     {
@@ -75,7 +77,9 @@ void MeasureLinearAcc::imuCallback(const sensor_msgs::Imu::ConstPtr& imu_message
         ROS_INFO("Max linear acceleration is %.3f.",getMaxAcc());//result
         ros::shutdown();
     }*/
+    m_cmd_vel_mutex.lock();
     vel_pub.publish(cmd_vel_message);
+    m_cmd_vel_mutex.unlock();
     return;
 }
 
@@ -85,8 +89,10 @@ void MeasureLinearAcc::odomCallback(const nav_msgs::Odometry::ConstPtr& odom_msg
     if(odom_msg->twist.twist.linear.x>getMaxVelocity()*0.9)
     {
         ROS_INFO("Stop!");
+        m_cmd_vel_mutex.lock();
         cmd_vel_message.linear.x=0.0;//stop the robot
         vel_pub.publish(cmd_vel_message);
+        m_cmd_vel_mutex.unlock();
         ROS_INFO("Max linear acceleration is %.3f.",getMaxAcc());//result
         ros::shutdown();
     }
